@@ -30,6 +30,10 @@ jobs:
           key: android
 
       - uses: android-actions/setup-android@v3
+        with:
+          # The obsolete "tools" package is gone from the SDK repository and makes the
+          # action fail before any of our steps run. platform-tools is all it needs here.
+          packages: "platform-tools"
 
       - name: NDK and SDK
         run: |
