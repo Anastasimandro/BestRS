@@ -41,7 +41,8 @@ jobs:
       - name: Ninja for Skia
         run: sudo apt-get update && sudo apt-get install -y ninja-build
 
-      - uses: taiki-e/install-action@cargo-ndk
+      - name: cargo-ndk
+        run: cargo install cargo-ndk --locked
 
       - uses: actions/setup-java@v4
         with:
