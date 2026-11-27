@@ -6,6 +6,22 @@ license = "GPL-3.0-only"
 repository = "https://github.com/grapedjuice/ytm-rs"
 description = "Native YouTube Music client"
 
+# The root crate is the shared library plus the desktop binary. The Android entry point
+# lives in `android/`; it is a workspace member but not a default member, so the desktop
+# commands (`cargo test`, `cargo clippy`) never try to build Android-only dependencies.
+[workspace]
+members = [".", "android"]
+default-members = ["."]
+resolver = "3"
+
+[lib]
+name = "ytm_rs"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ytm-rs"
+path = "src/main.rs"
+
 [dependencies]
 anyhow = "1.0.104"
 base64 = "0.22.1"
@@ -119,6 +135,17 @@ strip = true
 # Unwind, not abort: a panic while handling one request (in a library or a parser)
 # must fail that request, not close the app.
 panic = "unwind"
+
+# Android release builds: fat LTO does not fit in the development machine's memory, so
+# the APK uses thin LTO and more codegen units. The .so is stripped; Gradle keeps debug
+# symbols out of the release APK.
+[profile.android-release]
+inherits = "release"
+opt-level = 3
+lto = "thin"
+codegen-units = 16
+strip = "symbols"
+panic = "abort"
 
 # Keep debug builds usable: optimize dependencies (decoders, egui) even in dev.
 [profile.dev.package."*"]
