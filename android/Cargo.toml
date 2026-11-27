@@ -1,0 +1,28 @@
+[package]
+name = "bestrs-android"
+version = "2.0.2"
+edition = "2024"
+license = "GPL-3.0-only"
+publish = false
+
+[lib]
+name = "bestrs_android"
+crate-type = ["cdylib"]
+
+# Android-only dependencies. The desktop graph never sees Slint, Skia or the Android
+# activity glue because this crate is not a default workspace member.
+[target.'cfg(target_os = "android")'.dependencies]
+slint = { version = "1.19.1", default-features = false, features = [
+    "std",
+    "backend-android-activity-06",
+    "renderer-skia-opengl",
+    "compat-1-2",
+    "accessibility",
+] }
+# android-activity (pulled in by Slint) initializes ndk-context before android_main,
+# so this crate does not depend on ndk-context directly.
+android_logger = "0.15"
+log = "0.4"
+
+[build-dependencies]
+slint-build = "1.19.1"

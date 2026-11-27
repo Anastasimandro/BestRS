@@ -1,5 +1,15 @@
 /target
 
+# Android: Gradle outputs, local SDK path and the native libraries cargo-ndk copies in.
+android/.gradle/
+android/.kotlin/
+android/app/build/
+android/build/
+android/local.properties
+android/app/src/main/jniLibs/
+android/keystore.properties
+android/*.jks
+
 installer/Output/
 .claude/
 

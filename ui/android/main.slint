@@ -1,0 +1,19 @@
+import { Palette } from "palette.slint";
+
+// Task 00's only screen: it proves that the Rust library, the Slint backend and the
+// Gradle packaging all reach the phone. No product feature lives here yet.
+export component MainWindow inherits Window {
+    Rectangle {
+        width: 100%;
+        height: 100%;
+        background: Palette.background;
+
+        Text {
+            text: "BestRS";
+            color: Palette.on-background;
+            font-size: 32px;
+            x: (parent.width - self.width) / 2;
+            y: (parent.height - self.height) / 2;
+        }
+    }
+}
